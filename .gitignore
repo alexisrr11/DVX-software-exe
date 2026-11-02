@@ -1,0 +1,10 @@
+# Instaladores: se publican como assets de GitHub Releases, no en el repo.
+*.exe
+*.msi
+*.nsis.7z
+*.blockmap
+latest.yml
+
+# Sistema
+Thumbs.db
+.DS_Store

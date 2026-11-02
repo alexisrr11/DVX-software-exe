@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Devxis Software · Gestión comercial para Windows</title>
+  <meta name="description" content="Inventario, presupuestos, ventas y stock en una aplicación de escritorio rápida y sin dependencia de internet. Descargá Devxis Software para Windows 10 y 11." />
+  <meta property="og:title" content="Devxis Software · Gestión comercial para Windows" />
+  <meta property="og:description" content="Inventario, presupuestos, ventas y stock en una app de escritorio. Tus datos quedan en tu computadora." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" type="image/png" href="assets/logo.png" />
+  <link rel="apple-touch-icon" href="assets/logo.png" />
+  <style>
+    :root {
+      --brand: #0b5fc4;
+      --brand-dark: #0a4c9e;
+      --brand-light: #1478e8;
+      --ink: #0f172a;
+      --muted: #5b6b81;
+      --line: #e2e8f0;
+      --surface: #ffffff;
+      --bg: #f5f8fc;
+      --radius: 16px;
+      --shadow: 0 1px 2px rgba(16, 24, 40, .06), 0 12px 32px -12px rgba(16, 24, 40, .18);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .wrap { width: min(1120px, calc(100% - 40px)); margin-inline: auto; }
+
+    /* ---------- Nav ---------- */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(14px);
+      background: rgba(255, 255, 255, .82);
+      border-bottom: 1px solid rgba(226, 232, 240, .8);
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      min-height: 68px;
+    }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.02rem; }
+    .brand img { width: 30px; height: 30px; border-radius: 8px; object-fit: contain; }
+    .nav-links { display: flex; align-items: center; gap: 26px; font-size: .9rem; color: var(--muted); }
+    .nav-links a:hover { color: var(--brand); }
+    .nav-cta {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--brand); color: #fff;
+      padding: 9px 16px; border-radius: 10px;
+      font-size: .875rem; font-weight: 600;
+      transition: filter .15s ease;
+    }
+    .nav-cta:hover { filter: brightness(1.08); }
+
+    /* ---------- Hero ---------- */
+    .hero {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(108deg, #062f63 0%, #0a4c9e 38%, #1478e8 100%);
+      color: #fff;
+      padding: 76px 0 88px;
+    }
+    .hero::before {
+      content: "";
+      position: absolute; inset: 0;
+      background-image:
+        radial-gradient(circle at 82% 18%, rgba(255,255,255,.16), transparent 26rem),
+        radial-gradient(circle at 8% 90%, rgba(56, 189, 248, .22), transparent 24rem);
+      pointer-events: none;
+    }
+    .hero-grid {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 56px;
+      align-items: center;
+    }
+    .pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.22);
+      padding: 5px 12px; border-radius: 999px;
+      font-size: .78rem; font-weight: 600; letter-spacing: .02em;
+      color: #dbeafe;
+    }
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: #4ade80; box-shadow: 0 0 0 4px rgba(74, 222, 128, .18); }
+
+    .hero h1 {
+      margin-top: 20px;
+      font-size: clamp(2.1rem, 4.4vw, 3.4rem);
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      font-weight: 800;
+    }
+    .hero h1 span { color: #93c5fd; }
+    .hero p.lead {
+      margin-top: 18px;
+      max-width: 34rem;
+      font-size: 1.05rem;
+      color: #cfe3ff;
+    }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      border-radius: 12px; padding: 14px 22px;
+      font-size: .98rem; font-weight: 700;
+      transition: transform .15s ease, filter .15s ease, background .15s ease;
+      border: 1px solid transparent;
+    }
+    .btn:active { transform: translateY(1px); }
+    .btn-primary { background: #fff; color: #0a4c9e; box-shadow: 0 10px 24px -10px rgba(0, 0, 0, .45); }
+    .btn-primary:hover { filter: brightness(.97); }
+    .btn-ghost { background: rgba(255,255,255,.08); color: #fff; border-color: rgba(255,255,255,.28); }
+    .btn-ghost:hover { background: rgba(255,255,255,.15); }
+
+    .hero-note { margin-top: 16px; font-size: .8rem; color: #a9c8ee; display: flex; flex-wrap: wrap; gap: 6px 18px; }
+    .hero-note span { display: inline-flex; align-items: center; gap: 6px; }
+
+    /* App preview mock */
+    .preview {
+      position: relative;
+      background: #fff;
+      color: var(--ink);
+      border-radius: 18px;
+      box-shadow: 0 30px 70px -24px rgba(2, 20, 45, .7);
+      overflow: hidden;
+      transform: rotate(-1.2deg);
+    }
+    .preview-bar {
+      display: flex; align-items: center; gap: 8px;
+      background: #0b3a72; padding: 11px 14px;
+    }
+    .preview-bar i { width: 9px; height: 9px; border-radius: 50%; background: #f87171; display: block; }
+    .preview-bar i:nth-child(2) { background: #fbbf24; }
+    .preview-bar i:nth-child(3) { background: #34d399; }
+    .preview-bar span { margin-left: 8px; font-size: .7rem; color: #bfdbfe; font-family: Consolas, monospace; }
+    .preview-body { padding: 18px; background: #f3f7fc; }
+    .preview-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+    .preview-head strong { font-size: .95rem; }
+    .preview-head em { font-style: normal; font-size: .68rem; color: var(--muted); background: #fff; border: 1px solid var(--line); padding: 4px 9px; border-radius: 999px; }
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .stat { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 11px; }
+    .stat small { display: block; font-size: .6rem; text-transform: uppercase; letter-spacing: .06em; color: #8494a9; font-weight: 700; }
+    .stat b { font-size: 1.15rem; letter-spacing: -.02em; }
+    .stat b.green { color: #15803d; }
+    .stat b.blue { color: var(--brand); }
+    .chart {
+      margin-top: 12px; background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 12px;
+    }
+    .chart small { font-size: .65rem; font-weight: 700; color: #8494a9; text-transform: uppercase; letter-spacing: .06em; }
+    .bars { display: flex; align-items: flex-end; gap: 8px; height: 74px; margin-top: 10px; }
+    .bars b { flex: 1; border-radius: 5px 5px 2px 2px; background: linear-gradient(180deg, #60a5fa, #2563eb); display: block; }
+    .bars b:nth-child(1) { height: 38%; } .bars b:nth-child(2) { height: 58%; }
+    .bars b:nth-child(3) { height: 46%; } .bars b:nth-child(4) { height: 78%; }
+    .bars b:nth-child(5) { height: 64%; } .bars b:nth-child(6) { height: 92%; }
+    .bars b:nth-child(7) { height: 70%; }
+
+    /* ---------- Sections ---------- */
+    section { padding: 76px 0; }
+    .section-head { max-width: 640px; margin-bottom: 40px; }
+    .eyebrow { font-size: .76rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--brand); }
+    .section-head h2 { margin-top: 10px; font-size: clamp(1.6rem, 2.6vw, 2.15rem); letter-spacing: -.02em; line-height: 1.15; }
+    .section-head p { margin-top: 12px; color: var(--muted); }
+
+    .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .feature {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: 0 1px 2px rgba(16, 24, 40, .04);
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+    }
+    .feature:hover { transform: translateY(-3px); box-shadow: var(--shadow); border-color: #c9d8ea; }
+    .feature .ico {
+      width: 42px; height: 42px; border-radius: 11px;
+      display: grid; place-items: center;
+      background: #eaf3ff; color: var(--brand);
+      margin-bottom: 16px;
+    }
+    .feature h3 { font-size: 1rem; letter-spacing: -.01em; }
+    .feature p { margin-top: 7px; font-size: .9rem; color: var(--muted); }
+
+    /* Steps */
+    .steps-wrap { background: #fff; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; counter-reset: step; }
+    .step { position: relative; padding: 26px 24px 24px; border: 1px solid var(--line); border-radius: var(--radius); background: #fbfdff; }
+    .step::before {
+      counter-increment: step; content: counter(step);
+      position: absolute; top: -16px; left: 22px;
+      width: 34px; height: 34px; border-radius: 10px;
+      display: grid; place-items: center;
+      background: var(--brand); color: #fff;
+      font-weight: 800; font-size: .95rem;
+      box-shadow: 0 6px 16px -6px rgba(11, 95, 196, .6);
+    }
+    .step h3 { margin-top: 6px; font-size: .98rem; }
+    .step p { margin-top: 6px; font-size: .88rem; color: var(--muted); }
+    .step code { background: #eef4fb; border: 1px solid #dbe8f6; padding: 1px 5px; border-radius: 5px; font-size: .8em; }
+
+    /* Requirements + FAQ */
+    .split { display: grid; grid-template-columns: .85fr 1.15fr; gap: 40px; align-items: start; }
+    .panel { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 26px; box-shadow: 0 1px 2px rgba(16,24,40,.04); }
+    .panel h3 { font-size: 1.02rem; margin-bottom: 14px; }
+    .checklist { list-style: none; display: grid; gap: 11px; }
+    .checklist li { display: flex; gap: 10px; font-size: .9rem; color: #334155; }
+    .checklist li svg { flex: 0 0 auto; margin-top: 3px; color: #16a34a; }
+
+    details {
+      background: #fff; border: 1px solid var(--line); border-radius: 12px;
+      padding: 16px 18px; margin-bottom: 10px;
+    }
+    details[open] { border-color: #bfd7f3; box-shadow: 0 6px 20px -12px rgba(11, 95, 196, .35); }
+    summary { cursor: pointer; font-weight: 600; font-size: .92rem; list-style: none; display: flex; justify-content: space-between; gap: 16px; }
+    summary::-webkit-details-marker { display: none; }
+    summary::after { content: "+"; color: var(--brand); font-weight: 800; font-size: 1.1rem; line-height: 1; }
+    details[open] summary::after { content: "−"; }
+    details p { margin-top: 10px; font-size: .88rem; color: var(--muted); }
+
+    /* Final CTA */
+    .final {
+      background: linear-gradient(108deg, #062f63 0%, #0a4c9e 45%, #1478e8 100%);
+      color: #fff; text-align: center; border-radius: 22px;
+      padding: 52px 28px; margin: 0 auto 76px;
+      width: min(1120px, calc(100% - 40px));
+      box-shadow: 0 24px 50px -24px rgba(6, 47, 99, .7);
+    }
+    .final h2 { font-size: clamp(1.5rem, 2.8vw, 2rem); letter-spacing: -.02em; }
+    .final p { margin-top: 10px; color: #cfe3ff; }
+    .final .btn { margin-top: 24px; }
+
+    footer { border-top: 1px solid var(--line); background: #fff; padding: 28px 0; }
+    .foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; font-size: .82rem; color: var(--muted); }
+    .foot a:hover { color: var(--brand); }
+
+    @media (max-width: 900px) {
+      .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+      .preview { max-width: 460px; transform: none; }
+      .features, .steps { grid-template-columns: 1fr 1fr; }
+      .split { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+    }
+    @media (max-width: 620px) {
+      .features, .steps { grid-template-columns: 1fr; }
+      .hero { padding: 56px 0 64px; }
+      section { padding: 58px 0; }
+      .btn { width: 100%; }
+      .hero-actions { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="#inicio">
+        <img src="assets/logo.png" alt="Devxis Software" />
+        <span>Devxis Software</span>
+      </a>
+      <nav class="nav-links" aria-label="Secciones">
+        <a href="#caracteristicas">Características</a>
+        <a href="#empezar">Cómo empezar</a>
+        <a href="#requisitos">Requisitos</a>
+        <a href="#preguntas">Preguntas</a>
+      </nav>
+      <a class="nav-cta" href="https://github.com/alexisrr11/devxis-releases/releases/latest/download/Devxis-Setup.exe">
+        Descargar
+      </a>
+    </div>
+  </header>
+
+  <main id="inicio">
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <span class="pill"><span class="dot"></span> Disponible para Windows 10 y 11</span>
+          <h1>Gestioná tu negocio <span>sin depender de internet</span></h1>
+          <p class="lead">
+            Inventario, presupuestos, ventas y control de stock en una aplicación de escritorio
+            rápida y simple. Tus datos quedan guardados en tu propia computadora.
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="https://github.com/alexisrr11/devxis-releases/releases/latest/download/Devxis-Setup.exe">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M3 5.5 10.2 4.5v7.1H3V5.5Zm0 13 7.2 1.1v-7H3v5.9Zm8.2 1.3L21 21.5V12.6h-9.8v7.2ZM11.2 4.2 21 3v8.6h-9.8V4.2Z"/>
+              </svg>
+              Descargar para Windows
+            </a>
+            <a class="btn btn-ghost" href="https://github.com/alexisrr11/devxis-releases/releases">
+              Ver todas las versiones
+            </a>
+          </div>
+
+          <p class="hero-note">
+            <span>✓ Instalador .exe</span>
+            <span>✓ Última versión disponible</span>
+            <span>✓ Sin suscripciones ocultas</span>
+          </p>
+        </div>
+
+        <div class="preview" aria-hidden="true">
+          <div class="preview-bar"><i></i><i></i><i></i><span>Devxis Software</span></div>
+          <div class="preview-body">
+            <div class="preview-head">
+              <strong>Panel de inicio</strong>
+              <em>Base de datos local</em>
+            </div>
+            <div class="stats">
+              <div class="stat"><small>Ventas del mes</small><b class="green">$ 1.284.500</b></div>
+              <div class="stat"><small>Ticket promedio</small><b>$ 42.150</b></div>
+              <div class="stat"><small>Stock bajo</small><b class="blue">3</b></div>
+            </div>
+            <div class="chart">
+              <small>Ventas de la semana</small>
+              <div class="bars"><b></b><b></b><b></b><b></b><b></b><b></b><b></b></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="caracteristicas">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow">Todo en un solo lugar</span>
+          <h2>Las herramientas que tu negocio usa todos los días</h2>
+          <p>Pensada para comercios que necesitan rapidez, orden y control sin depender de una conexión permanente.</p>
+        </div>
+
+        <div class="features">
+          <article class="feature">
+            <div class="ico">
+              <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
+            </div>
+            <h3>Inventario y stock</h3>
+            <p>Catálogo con SKU, categorías, costos y precios. Alertas automáticas cuando un producto llega al mínimo.</p>
+          </article>
+
+          <article class="feature">
+            <div class="ico">
+              <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M8 13h8"/><path d="M8 17h5"/></svg>
+            </div>
+            <h3>Presupuestos en PDF</h3>
+            <p>Creá cotizaciones con validez, descuentos e IVA. Descargalas o imprimilas y convertilas en venta con un clic.</p>
+          </article>
+
+          <article class="feature">
+            <div class="ico">
+              <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            </div>
+            <h3>Punto de venta</h3>
+            <p>Grilla visual con buscador rápido, carrito, clientes y comprobantes A, B, C, ticket o remito.</p>
+          </article>
+
+          <article class="feature">
+            <div class="ico">
+              <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+            </div>
+            <h3>Historial y movimientos</h3>
+            <p>Cada venta y ajuste de stock queda registrado. Consultá el kardex y el historial completo cuando lo necesites.</p>
+          </article>
+
+          <article class="feature">
+            <div class="ico">
+              <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></svg>
+            </div>
+            <h3>Copias de seguridad</h3>
+            <p>Exportá toda tu información a un archivo .json y guardala en un pendrive o disco externo.</p>
+          </article>
+
+          <article class="feature">
+            <div class="ico">
+              <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/></svg>
+            </div>
+            <h3>Funciona sin conexión</h3>
+            <p>La app trabaja de forma local. Solo necesita internet para activar o revalidar la licencia.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <div class="steps-wrap">
+      <section id="empezar">
+        <div class="wrap">
+          <div class="section-head">
+            <span class="eyebrow">Empezar es simple</span>
+            <h2>Tres pasos para tener todo funcionando</h2>
+          </div>
+
+          <div class="steps">
+            <article class="step">
+              <h3>Descargá el instalador</h3>
+              <p>Hacé clic en <strong>Descargar para Windows</strong>. Se baja siempre la última versión publicada.</p>
+            </article>
+            <article class="step">
+              <h3>Instalá la aplicación</h3>
+              <p>Ejecutá el archivo <code>.exe</code> y seguí el asistente. No requiere configurar servidores ni bases de datos.</p>
+            </article>
+            <article class="step">
+              <h3>Activá tu licencia</h3>
+              <p>Ingresá el email y el código de licencia que te entregamos. Después la app queda lista para usar.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <section id="requisitos">
+      <div class="wrap split">
+        <div>
+          <div class="section-head" style="margin-bottom: 22px;">
+            <span class="eyebrow">Compatibilidad</span>
+            <h2>Requisitos del sistema</h2>
+          </div>
+          <div class="panel">
+            <h3>Antes de instalar</h3>
+            <ul class="checklist">
+              <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11-5-5"/></svg><span>Windows 10 u 11, 64 bits</span></li>
+              <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11-5-5"/></svg><span>300 MB de espacio libre en disco</span></li>
+              <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11-5-5"/></svg><span>Conexión a internet solo para activar o verificar la licencia</span></li>
+              <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11-5-5"/></svg><span>Los datos se guardan en <code>%APPDATA%\devxis-desktop</code></span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div id="preguntas">
+          <div class="section-head" style="margin-bottom: 22px;">
+            <span class="eyebrow">Preguntas frecuentes</span>
+            <h2>Lo que suelen preguntarnos</h2>
+          </div>
+
+          <details open>
+            <summary>¿Dónde se guardan mis datos?</summary>
+            <p>En una base de datos local dentro de tu usuario de Windows. No se suben a ningún servidor: la información comercial queda en tu computadora.</p>
+          </details>
+          <details>
+            <summary>¿Necesito internet para usarla?</summary>
+            <p>No para trabajar. Solo se usa la conexión al activar la licencia y en las verificaciones periódicas. Si no hay internet, la app sigue funcionando dentro del período de gracia.</p>
+          </details>
+          <details>
+            <summary>¿Cómo actualizo a una versión nueva?</summary>
+            <p>Descargá el instalador desde esta página y ejecutalo sobre la versión anterior. Tus datos y tu licencia se conservan.</p>
+          </details>
+          <details>
+            <summary>¿Cómo obtengo una licencia?</summary>
+            <p>Escribinos a <a href="mailto:alexis.r4995@gmail.com" style="color:#0b5fc4;font-weight:600;">alexis.r4995@gmail.com</a> y te enviamos el email y el código de activación.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <div class="final">
+      <h2>¿Listo para ordenar tu negocio?</h2>
+      <p>Descargá Devxis Software y empezá a trabajar con tus datos bajo control.</p>
+      <a class="btn btn-primary" href="https://github.com/alexisrr11/devxis-releases/releases/latest/download/Devxis-Setup.exe">
+        Descargar para Windows
+      </a>
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap foot">
+      <span>© <span id="year">2026</span> Devxis Software. Todos los derechos reservados.</span>
+      <span>
+        <a href="https://github.com/alexisrr11/devxis-releases/releases">Versiones</a>
+        &nbsp;·&nbsp;
+        <a href="mailto:alexis.r4995@gmail.com">Contacto</a>
+      </span>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear()
+  </script>
+</body>
+</html>
