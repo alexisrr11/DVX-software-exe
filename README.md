@@ -3,9 +3,14 @@
 Repositorio público de distribución de **Devxis Software** para Windows.
 
 - Landing page: `https://alexisrr11.github.io/DVX-software-exe/`
-- Descarga directa (siempre la última versión):
-  `https://github.com/alexisrr11/DVX-software-exe/releases/latest/download/Devxis-Setup.exe`
+- Descarga directa (siempre la última versión, archivo comprimido):
+  `https://github.com/alexisrr11/DVX-software-exe/releases/latest/download/Devxis-Setup.zip`
 - Historial de versiones: `https://github.com/alexisrr11/DVX-software-exe/releases`
+
+> IMPORTANTE: la landing enlaza al archivo **comprimido** `Devxis-Setup.zip`.
+> Cada release debe publicar **ambos** archivos: `Devxis-Setup.exe` (instalador
+> original, sin modificar) y `Devxis-Setup.zip` (ese mismo exe comprimido).
+> El cliente descarga el ZIP, lo extrae y ejecuta el instalador.
 
 ## Qué contiene
 
@@ -44,14 +49,19 @@ Si preferís hacerlo a mano:
 
 ```powershell
 npm run package:win
-gh release create v1.0.1 "release/Devxis-Setup.exe" `
+
+# Comprimir el instalador (al descomprimir debe salir el EXE original intacto)
+Compress-Archive -Path "release/Devxis-Setup.exe" -DestinationPath "release/Devxis-Setup.zip"
+
+gh release create v1.0.1 "release/Devxis-Setup.exe" "release/Devxis-Setup.zip" `
   --repo alexisrr11/DVX-software-exe `
   --title "Devxis Software 1.0.1" `
   --notes "Descripción de los cambios"
 ```
 
-> El nombre del archivo debe ser siempre `Devxis-Setup.exe` para que el enlace
-> `/releases/latest/download/Devxis-Setup.exe` de la landing siga funcionando.
+> El release debe listar SIEMPRE `Devxis-Setup.exe` y `Devxis-Setup.zip` para que
+> los enlaces `/releases/latest/download/...` de la landing sigan funcionando
+> (la página enlaza al `.zip`).
 
 ## Requisito importante
 
